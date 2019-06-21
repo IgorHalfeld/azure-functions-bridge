@@ -28,7 +28,7 @@ const nuxt = new Nuxt(config);
 
 const bridge = new Bridge({
   nuxt,
-  root: '/', // Always get the app based on root url
+  root: '/', // Root url
   fnName: 'NuxtApp', // Function name
 });
 
