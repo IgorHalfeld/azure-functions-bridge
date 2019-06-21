@@ -1,6 +1,6 @@
 const axios = require('axios');
 const express = require('express');
-const path = require('');
+const path = require('path');
 
 module.exports = class Bridge {
   constructor({ nuxt, root, fnName }) {
@@ -47,7 +47,6 @@ module.exports = class Bridge {
         headers: response.headers,
         body: response.data,
       };
-      context.log(JSON.stringify(azureFuncResult, null, 2))
       resolve(azureFuncResult);
     });
   }
