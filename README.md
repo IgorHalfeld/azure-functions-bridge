@@ -21,15 +21,19 @@ yarn add azure-functions-bridge
 _your-function-file.js_
 ```javascript
 const { Nuxt } = require('nuxt');
+const Bridge = require('azure-functions-bridge');
 
-const AzureFunctionsBridge = require('azure-functions-bridge');
-const config = require('./nuxt.config'); // your nuxt config file
+const config = require('./nuxt.config');
 const nuxt = new Nuxt(config);
 
-const bridge = new AzureFunctionsBridge({ nuxt });
+const bridge = new Bridge({
+  nuxt,
+  root: '/', // Always get the app based on root url
+  fnName: 'NuxtApp', // Function name
+});
 
-module.exports = async function(context) {
+module.exports = async function (context) {
   const response = await bridge.launcher(context);
-  return context.res = response;
+  context.res = response;
 };
 ```
