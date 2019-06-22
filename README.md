@@ -1,6 +1,6 @@
 ## <⚡> Azure Functions Bridge
 
-A bridge to Nuxt-based apps works in Azure Functions.
+A bridge to [Nuxt](https://nuxtjs.org/)-based apps works in Azure Functions.
 
 > ⚠️ this is a beta version
 
