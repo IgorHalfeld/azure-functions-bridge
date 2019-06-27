@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports = class Bridge {
   constructor({ nuxt, root, fnName }) {
-    this.root = root;
+    this.root = root || '/';
     this.fnName = fnName;
     this.server = null;
     if (nuxt) {
@@ -29,14 +29,14 @@ module.exports = class Bridge {
       throw new Error('Server has not been set!');
     }
 
-    return this.server.listen(3000);
+    return this.server.listen(0);
   }
 
   launcher(context) {
     return new Promise(async resolve => {
       const { path = this.root } = context.req;
       const response = await axios
-        .get(`http://127.0.0.1:3000${path}`);
+        .get(`http://127.0.0.1:0${path}`);
       
       delete response.headers.connection;
       delete response.headers.etag;
