@@ -55,7 +55,7 @@ module.exports = class Bridge {
     return new Promise(async resolve => {
       const { port } = this.address;
       const { path = this.root } = context.req;
-      const uri = `http://127.0.0.1:${port}${path}`
+      const uri = `http://127.0.0.1:${port}${path}`;
       context.log(`* Calling route ${uri}`);
       const response = await axios.get(uri);
       
