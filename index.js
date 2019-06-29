@@ -21,22 +21,43 @@ module.exports = class Bridge {
 
     this.server = express();
     this.server.use(nuxt.render);
-    this.listen();
+
+    try {
+      this.address = await this.listen();    
+    } catch (error) {
+      throw error;
+    }
   }
 
   listen() {
     if (!this.server) {
       throw new Error('Server has not been set!');
     }
+    return new Promise((resolve, reject) => {
+      this.server.listen(0, function listenCallback() {
+        const address = this.address();
+        if (!address) {
+          reject(new Error('`server.addressess()` returned `null`'))
+        }
 
-    return this.server.listen(0);
+        if (typeof address === 'string') {
+          reject(new Error(
+            `Unexpected string for \`server.address()\`: ${address}`
+          ));
+        }
+
+        resolve(address);
+      });
+    }) 
   }
 
   launcher(context) {
     return new Promise(async resolve => {
+      const { port } = this.address;
       const { path = this.root } = context.req;
-      const response = await axios
-        .get(`http://127.0.0.1:0${path}`);
+      const uri = `http://127.0.0.1:${port}${path}`
+      context.log(`* Calling route ${uri}`);
+      const response = await axios.get(uri);
       
       delete response.headers.connection;
       delete response.headers.etag;
